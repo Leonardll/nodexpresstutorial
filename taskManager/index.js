@@ -1,7 +1,11 @@
 const express = require('express');
 const tasks = require('./routes/task')
 const connectDB = require('./db/connect')
+const notFound = require('./middleware/notFound')
+const errorHandlerMiddleWare = require('./middleware/errorHandler')
+
 require('dotenv').config()
+
 const app = express();
 
 //middleware
@@ -12,15 +16,11 @@ app.use(express.static('./public'))
 
 
 app.use('/api/v1/tasks', tasks)
- // get all tasks
-//app.get('/api/v1/tasks',)
-//create new task
-//  app.post('/api/v1/tasks')
-//  app.get('/api/v1/tasks/:id')
-//  app.patch('/api/v1/tasks/:id')
-//  app.delete('/api/v1/tasks?/:id')
 
-const port = 3000;
+app.use(notFound)
+app.use(errorHandlerMiddleWare)
+
+const port = process.env.PORT || 3000;
 
 const start = async () => {
     try {
