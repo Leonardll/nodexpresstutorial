@@ -33,6 +33,7 @@ const getAllProducts =  async (req, res) => {
         const regEx = /\b(<|>|>=|=|<|<=)\b/g
         let filters = numericFilters.replace(regEx, (match) => `-${operatorMap[match]}-`)
         console.log(filters)
+        
         const options = ['price', 'rating'];
         filters = filters.split(',').forEach((item) => {
             const [fields,operator,value] = item.split('-')
@@ -54,7 +55,7 @@ const getAllProducts =  async (req, res) => {
 
     if( fields) {
         const fieldList = fields.split(',').join(' ');
-        result = result.select (fieldList)
+        result = result.select(fieldList)
         } 
 
     const page = Number(req.query.page) || 1
